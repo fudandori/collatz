@@ -44,21 +44,21 @@ const GO = 'GO!', STOP = 'STOP';
 })
 
 export class AppComponent {
-  protected inputNumber: number;
-  protected result: number;
-  protected result2: number;
-  protected count: number;
-  protected state = 'show';
-  protected state2 = 'hide';
   private first: boolean;
-  protected buttonText = GO;
-  protected started = false;
-  protected lockDown = false;
-  protected streak = 0;
-  protected error = 'hide';
-  protected info = 'hide';
-  protected popUp = 'hide';
-  protected cursorPos = {x: 0, y: 0};
+  public inputNumber: number;
+  public result: number;
+  public result2: number;
+  public count: number;
+  public state = 'show';
+  public state2 = 'hide';
+  public buttonText = GO;
+  public started = false;
+  public lockDown = false;
+  public streak = 0;
+  public error = 'hide';
+  public info = 'hide';
+  public popUp = 'hide';
+  public cursorPos = {x: 0, y: 0};
 
   private roll() {
 
@@ -99,7 +99,7 @@ export class AppComponent {
     this.first = !this.first;
   }
 
-  protected onClick(event) {
+  public onClick(event) {
     event.target.blur();
 
     if (Number.isInteger(this.inputNumber) && this.inputNumber > 0) {
@@ -127,7 +127,7 @@ export class AppComponent {
     }
   }
 
-  protected menu(event) {
+  public menu(event) {
     if (this.popUp === 'hide') {
       this.cursorPos.x = event.x;
       this.cursorPos.y = event.y;
@@ -136,7 +136,7 @@ export class AppComponent {
     this.popUp = this.popUp === 'show' ? 'hide' : 'show';
   }
 
-  protected showInfo(show: boolean = true) {
+  public showInfo(show: boolean = true) {
     this.info = show ? 'show' : 'hide';
   }
 }
