@@ -1,5 +1,53 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>Collatz conjecture</h1>
+<div [@fade]="error" class="error">
+  <span class="stroke" style="">ERROR!</span>
+  <br/>
+  <span class="stroke">IT MUST BE A POSITIVE INTEGER NUMBER</span>
+</div>
+
+<div [@fade]="info" class="info">
+  <span>PICK A NUMBER, TYPE IT INTO THE BOX AND PRESS THE BUTTON</span>
+  <br/>
+  <span>ON THE LEFT SIDE YOU WILL SEE THE CONJECTURE JUMPS</span>
+  <br/>
+  <span>ON THE MIDDLE YOU WILL SEE HOW MANY JUMPS YOUR CHAIN ACCUMULATES</span>
+  <br/>
+  <span>REMEMBER: IT MUST BE A POSITIVE INTEGER NUMBER GREATER THAN 0!</span>
+  <br/>
+  <button style="margin: 0" class="btn btn-inverse" (click)="showInfo(false)">GOT IT!</button>
+</div>
+
+<div>
+  <input type="number" class="form-control" id="name" placeholder="Pick a number!" [(ngModel)]="inputNumber"
+         [ngModelOptions]="{standalone: true}">
+
+  <button [ngClass]="{'btn':true, 'btn-outline': !started, 'btn-warning-outline': started}" style="margin: 0 15px;"
+          (click)="onClick()" [disabled]="lockDown">{{buttonText}}
+  </button>
+  <clr-icon shape="help" style="width: 30px;height: 30px;cursor: pointer" (click)="menu($event)"></clr-icon>
+  <span class="stroke" style="font-size: 3vmax;float: right;">Biggest chain: {{streak}}</span>
+</div>
+
+
+<div [ngStyle]="{
+            'font-size': (300 + count * 10) + '%',
+             'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
+             '-webkit-text-stroke': (1+count/20).toString() + 'px black'
+            }"
+     class="text-container">
+  <span>{{count}}</span>
+</div>
+
+
+<div style="top:40%;font-size: 300%;position: absolute" [@pop]="state">
+  <span class="stroke">{{result}}</span>
+</div>
+<div style="top:40%;font-size: 300%;position: absolute" [@pop]="state2">
+  <span class="stroke">{{result2}}</span>
+</div>
+
+<div [ngStyle]="{top: cursorPos.y+200 + 'px', left: cursorPos.x+32 +'px'}" style="position: fixed;width: 100px;transform-origin: top" [@expand]="popUp">
+  <button style="margin: 0" class="btn btn-outline" (click)="showInfo()">How to play</button>
+  <a href=""><button style="margin: 2px 0" class="btn btn-outline">What is the Collatz Conjecture??</button></a>
+  <a href="https://https://www.youtube.com/watch?v=5mFpVDpKX70"><button style="margin: 0" class="btn btn-outline">Video (Numberphile)</button></a>
 </div>
 
