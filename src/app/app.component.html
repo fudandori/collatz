@@ -21,21 +21,19 @@
          [ngModelOptions]="{standalone: true}">
 
   <button [ngClass]="{'btn':true, 'btn-outline': !started, 'btn-warning-outline': started}" style="margin: 0 15px;"
-          (click)="onClick()" [disabled]="lockDown">{{buttonText}}
+          (click)="onClick($event)" [disabled]="lockDown">{{buttonText}}
   </button>
   <clr-icon shape="help" style="width: 30px;height: 30px;cursor: pointer" (click)="menu($event)"></clr-icon>
   <span class="stroke" style="font-size: 3vmax;float: right;">Biggest chain: {{streak}}</span>
 </div>
 
-
-<div [ngStyle]="{
-            'font-size': (300 + count * 10) + '%',
-             'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
-             '-webkit-text-stroke': (1+count/20).toString() + 'px black'
-            }"
-     class="text-container">
-  <span>{{count}}</span>
-</div>
+<span class="center-align" [ngStyle]="{
+  'font-size': (300 + count * 10) + '%',
+  'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
+  '-webkit-text-stroke': (1+count/20).toString() + 'px black'
+  }">
+  {{count}}
+</span>
 
 
 <div style="top:40%;font-size: 300%;position: absolute" [@pop]="state">
@@ -45,9 +43,14 @@
   <span class="stroke">{{result2}}</span>
 </div>
 
-<div [ngStyle]="{top: cursorPos.y+200 + 'px', left: cursorPos.x+32 +'px'}" style="position: fixed;width: 100px;transform-origin: top" [@expand]="popUp">
+<div [ngStyle]="{top: cursorPos.y+200 + 'px', left: cursorPos.x+32 +'px'}"
+     style="position: fixed;width: 100px;transform-origin: top" [@expand]="popUp">
   <button style="margin: 0" class="btn btn-outline" (click)="showInfo()">How to play</button>
-  <a href=""><button style="margin: 2px 0" class="btn btn-outline">What is the Collatz Conjecture??</button></a>
-  <a href="https://https://www.youtube.com/watch?v=5mFpVDpKX70"><button style="margin: 0" class="btn btn-outline">Video (Numberphile)</button></a>
+  <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">
+    <button style="margin: 2px 0" class="btn btn-outline">What is the Collatz Conjecture??</button>
+  </a>
+  <a href="https://https://www.youtube.com/watch?v=5mFpVDpKX70">
+    <button style="margin: 0" class="btn btn-outline">Video (Numberphile)</button>
+  </a>
 </div>
 

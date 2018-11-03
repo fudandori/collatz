@@ -99,7 +99,9 @@ export class AppComponent {
     this.first = !this.first;
   }
 
-  protected onClick() {
+  protected onClick(event) {
+    event.target.blur();
+
     if (Number.isInteger(this.inputNumber) && this.inputNumber > 0) {
 
       if (!this.started) {
