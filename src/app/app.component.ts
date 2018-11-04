@@ -1,129 +1,57 @@
 import {Component} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {expand, fade, pop, shake} from './animations/animations';
 
 const GO = 'GO!', STOP = 'STOP';
+const MILD_SHAKE = 50, AVERAGE_SHAKE = 100, HEAVY_SHAKE = 150;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [
-    trigger('expand', [
-      state('show',
-        style({opacity: 1, transform: 'translateY(-200px)'})),
-      state('hide',
-        style({opacity: 0, transform: 'translateY(0)', visibility: 'hidden'})),
-      transition('show <=> hide', animate(250))
-    ]),
-    trigger('fade', [
-      state('show',
-        style({visibility: 'visible', opacity: 1})),
-      state('hide',
-        style({visibility: 'hidden', opacity: 0})),
-      transition('show <=> hide', animate(1000))
-    ]),
-    trigger('pop', [
-      state('show',
-        style({
-          transform: 'translateX(0px)',
-          opacity: '1'
-        })),
-      state('hide',
-        style({
-          transform: 'translateX(-200px)',
-          opacity: '0'
-        })),
-      transition('show => hide',
-        animate(200))
-      ,
-      transition('hide => show',
-        animate(200)
-      )
-    ])
-  ]
+  animations: [expand, shake, pop, fade]
 })
 
 export class AppComponent {
-  private first: boolean;
+
   public inputNumber: number;
   public result: number;
   public result2: number;
   public count: number;
-  public state = 'show';
-  public state2 = 'hide';
+  public streak = 0;
+
   public buttonText = GO;
+
   public started = false;
   public lockDown = false;
-  public streak = 0;
+  private switched: boolean;
+
+  public trigger1 = 'show';
+  public trigger2 = 'hide';
+
   public error = 'hide';
   public info = 'hide';
   public popUp = 'hide';
+
+  public shake = '';
+  public shaking = false;
+
   public cursorPos = {x: 0, y: 0};
 
-  private roll() {
+  public onClick(event: MouseEvent) {
 
-
-    this.state = this.state === 'show' ? 'hide' : 'show';
-    this.state2 = this.state2 === 'show' ? 'hide' : 'show';
-
-    if (this.first) {
-      if (this.result % 2 === 0) {
-        this.result2 = this.result / 2;
-      } else {
-        this.result2 = this.result * 3 + 1;
-      }
-
-    } else {
-      if (this.result2 % 2 === 0) {
-        this.result = this.result2 / 2;
-      } else {
-        this.result = this.result2 * 3 + 1;
-      }
-
-    }
-
-    if (this.result !== 1 && this.result2 !== 1 && this.started) {
-      setTimeout(() => this.roll(), 400);
-    } else {
-      setTimeout(() => {
-        this.state = 'hide';
-        this.state2 = 'hide';
-        this.buttonText = GO;
-        this.started = false;
-        this.lockDown = false;
-      }, 2000);
-    }
-
-    this.count++;
-    this.streak = this.count > this.streak ? this.count : this.streak;
-    this.first = !this.first;
-  }
-
-  public onClick(event) {
-    event.target.blur();
+    const button = event.currentTarget as HTMLInputElement;
+    button.blur();
 
     if (Number.isInteger(this.inputNumber) && this.inputNumber > 0) {
-
       if (!this.started) {
-
-        this.state = 'show';
-        this.state2 = 'hide';
-        this.first = true;
-
-        this.started = true;
-        this.buttonText = STOP;
-        this.result = this.inputNumber;
-        this.result2 = this.inputNumber;
-        this.count = 0;
-
+        this.init();
         this.roll();
       } else {
         this.started = false;
         this.lockDown = true;
       }
     } else {
-      this.error = 'show';
-      setTimeout(() => this.error = 'hide', 2000);
+      this.triggerError();
     }
   }
 
@@ -132,11 +60,117 @@ export class AppComponent {
       this.cursorPos.x = event.x;
       this.cursorPos.y = event.y;
     }
-
     this.popUp = this.popUp === 'show' ? 'hide' : 'show';
   }
 
   public showInfo(show: boolean = true) {
     this.info = show ? 'show' : 'hide';
+  }
+
+  public triggerError() {
+    this.error = 'show';
+    setTimeout(() => this.error = 'hide', 2000);
+  }
+
+  public onEnd(event) {
+    if (this.shaking) {
+      switch (event.toState) {
+        case 'one':
+          this.shake = 'two';
+          break;
+        case 'two':
+          this.shake = 'one';
+          break;
+        case 'three':
+          this.shake = 'four';
+          break;
+        case 'four':
+          this.shake = 'three';
+          break;
+        case 'five':
+          this.shake = 'six';
+          break;
+        case 'six':
+          this.shake = 'five';
+          break;
+      }
+    }
+  }
+
+  private roll() {
+    this.prepareNext();
+    this.next();
+    this.updateStatus();
+    this.evaluateShaking();
+  }
+
+  private prepareNext() {
+    this.trigger1 = this.trigger1 === 'show' ? 'hide' : 'show';
+    this.trigger2 = this.trigger2 === 'show' ? 'hide' : 'show';
+
+    if (this.switched) {
+      this.result2 = this.calc(this.result);
+    } else {
+      this.result = this.calc(this.result2);
+    }
+  }
+
+  private next() {
+    if (this.result !== 1 && this.result2 !== 1 && this.started) {
+      setTimeout(() => this.roll(), 400);
+    } else {
+      setTimeout(() => {
+        this.reset();
+      }, 2000);
+    }
+  }
+
+  private updateStatus() {
+    this.count++;
+    this.streak = this.count > this.streak ? this.count : this.streak;
+    this.switched = !this.switched;
+  }
+
+  private reset() {
+    this.trigger1 = 'hide';
+    this.trigger2 = 'hide';
+    this.buttonText = GO;
+    this.started = false;
+    this.lockDown = false;
+    this.shaking = false;
+    this.shake = '';
+  }
+
+  private init() {
+    this.trigger1 = 'show';
+    this.trigger2 = 'hide';
+
+    this.switched = true;
+    this.started = true;
+
+    this.buttonText = STOP;
+
+    this.result = this.inputNumber;
+    this.result2 = this.inputNumber;
+    this.count = 0;
+  }
+
+  private calc(input: number): number {
+    return input % 2 === 0 ? input / 2 : input * 3 + 1;
+  }
+
+  private evaluateShaking() {
+    switch (this.count) {
+      case MILD_SHAKE:
+        this.shaking = true;
+        this.shake = 'one';
+        break;
+      case AVERAGE_SHAKE:
+        this.shake = 'three';
+        break;
+      case HEAVY_SHAKE:
+        this.shake = 'five';
+        break;
+    }
   }
 }

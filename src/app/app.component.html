@@ -31,15 +31,15 @@
   'font-size': (300 + count * 10) + '%',
   'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
   '-webkit-text-stroke': (1+count/20).toString() + 'px black'
-  }">
+  }" [@shake]="shake" (@shake.done)="onEnd($event)" >
   {{count}}
 </span>
 
 
-<div style="top:40%;font-size: 300%;position: absolute" [@pop]="state">
+<div class="chain-number" [@pop]="trigger1">
   <span class="stroke">{{result}}</span>
 </div>
-<div style="top:40%;font-size: 300%;position: absolute" [@pop]="state2">
+<div class="chain-number" [@pop]="trigger2">
   <span class="stroke">{{result2}}</span>
 </div>
 
