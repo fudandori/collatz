@@ -17,5 +17,5 @@ Have fun!
 ## Development
 
 * Angular 6
-* IntelliJ Webstorm
+* JetBrains Webstorm
 * Credit for the background to [Halirutan](https://mathematica.stackexchange.com/users/187/halirutan)
