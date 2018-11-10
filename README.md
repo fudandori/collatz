@@ -16,6 +16,6 @@ Have fun!
 
 ## Development
 
-Angular 6
-IntelliJ Webstorm
-Credit for the background to https://mathematica.stackexchange.com/users/187/halirutan 
+* Angular 6
+* IntelliJ Webstorm
+* Credit for the background to [Halirutan](https://mathematica.stackexchange.com/users/187/halirutan)
