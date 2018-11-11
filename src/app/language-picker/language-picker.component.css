@@ -1,0 +1,47 @@
+* {
+  font-family: arial;
+}
+
+body {
+  background-color: #333;
+}
+
+.languagepicker {
+  background-color: #FFF;
+  display: inline-block;
+  padding: 0;
+  height: 40px;
+  overflow: hidden;
+  transition: all .3s ease;
+  margin: 0 50px 10px 0;
+  vertical-align: top;
+  float: left;
+}
+
+.languagepicker:hover {
+  /* don't forget the 1px border */
+  height: 80px;
+}
+
+.languagepicker a {
+  color: #000;
+  text-decoration: none;
+}
+
+.languagepicker li {
+  display: block;
+  padding: 0 20px;
+  line-height: 40px;
+}
+
+.languagepicker li:hover {
+  background-color: #EEE;
+}
+
+.languagepicker li img {
+  margin-right: 5px;
+}
+
+.roundborders {
+  border-radius: 5px;
+}

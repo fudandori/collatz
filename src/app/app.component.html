@@ -20,18 +20,20 @@
   <input type="number" class="form-control" id="name" placeholder="Pick a number!" [(ngModel)]="inputNumber"
          [ngModelOptions]="{standalone: true}">
 
-  <button [ngClass]="{'btn':true, 'btn-outline': !started, 'btn-warning-outline': started}" style="margin: 0 15px;"
-          (click)="onClick($event)" [disabled]="lockDown">{{buttonText}}
+  <button [ngClass]="{'btn':true, 'btn-outline': !started, 'btn-warning-outline': started}"
+          style="margin: 0 15px;" (click)="onClick($event)" [disabled]="lockDown">{{buttonText}}
   </button>
   <clr-icon shape="help" style="width: 30px;height: 30px;cursor: pointer" (click)="menu($event)"></clr-icon>
-  <span class="stroke" style="font-size: 3vmax;float: right;">Biggest chain: {{streak}}</span>
+  <span class="stroke" style="font-size: 3vmax;float: right;">{{'BIGGEST' | translate}} {{streak}}</span>
 </div>
 
-<span class="center-align" [ngStyle]="{
-  'font-size': (300 + count * 10) + '%',
-  'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
-  '-webkit-text-stroke': (1+count/20).toString() + 'px black'
-  }" [@shake]="shake" (@shake.done)="onEnd($event)" >
+<span class="center-align"
+      [ngStyle]="{
+                  'font-size': (300 + count * 10) + '%',
+                  'color': ('rgb(255,' + (255 - count*2).toString() + ',' + (255 - count*2).toString()),
+                  '-webkit-text-stroke': (1+count/20).toString() + 'px black'
+                  }"
+      [@shake]="shake" (@shake.done)="onEnd($event)">
   {{count}}
 </span>
 
@@ -43,6 +45,7 @@
   <span class="stroke">{{result2}}</span>
 </div>
 
+
 <div [ngStyle]="{top: cursorPos.y+200 + 'px', left: cursorPos.x+32 +'px'}"
      style="position: fixed;width: 100px;transform-origin: top" [@expand]="popUp">
   <button style="margin: 0" class="btn btn-outline" (click)="showInfo()">How to play</button>
@@ -53,4 +56,9 @@
     <button style="margin: 0" class="btn btn-outline">Video (Numberphile)</button>
   </a>
 </div>
+
+<app-language-picker
+  [languages]="languages"
+  (selected)="changeLang($event)">
+</app-language-picker>
 

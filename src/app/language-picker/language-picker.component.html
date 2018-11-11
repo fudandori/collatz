@@ -1,0 +1,11 @@
+<div style="cursor:pointer;position: fixed;bottom: 10px;left: 10px;z-index: 700;  border-top: 1px solid #0079b8">
+  <ul class="languagepicker roundborders"
+      [ngStyle]="{'height': hovering ? (languages.length * 40).toString() + 'px' : '40px'}"
+      (mouseenter)="hovering = true"
+      (mouseleave)="hovering = false">
+    <li *ngFor="let lang of languages" (click)="select(lang)">
+      <img [src]="'../../assets/flags/' + lang.id + '.png'"/>
+      {{lang.name}}
+    </li>
+  </ul>
+</div>
