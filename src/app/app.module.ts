@@ -20,7 +20,7 @@ import { LanguagePickerComponent } from './language-picker/language-picker.compo
     BrowserAnimationsModule,
     TranslatorModule.forRoot({
       detectLanguage: true,
-      providedLanguages: ['en', 'es']
+      providedLanguages: ['en', 'es', 'pt', 'de', 'fr']
     })
   ],
   providers: [],

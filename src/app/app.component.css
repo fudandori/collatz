@@ -31,9 +31,11 @@ input[type=number]::-webkit-outer-spin-button {
   top: 0;
   background-color: darkblue;
   z-index: 999;
-  line-height: 20vmin;
-  font-size: 4vmin;
+  line-height: 20vh;
+  font-size: 4vh;
   color: white;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .center-align {
@@ -49,4 +51,16 @@ input[type=number]::-webkit-outer-spin-button {
   top: 40%;
   font-size: 300%;
   position: absolute
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: violet;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
 }

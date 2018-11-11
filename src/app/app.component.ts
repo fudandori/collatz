@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {expand, fade, pop, shake} from './animations/animations';
-import {TranslatorContainer} from 'angular-translator';
+import {Translator, TranslatorContainer} from 'angular-translator';
 import {Language} from './language-picker/language';
 
-const GO = 'GO!', STOP = 'STOP';
+
 const MILD_SHAKE = 50, AVERAGE_SHAKE = 100, HEAVY_SHAKE = 150;
 
 @Component({
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   public count: number;
   public streak = 0;
 
-  public buttonText = GO;
+  public buttonText: string;
 
   public started = false;
   public lockDown = false;
@@ -40,13 +40,31 @@ export class AppComponent implements OnInit {
   public cursorPos = {x: 0, y: 0};
 
   public languages = Array<Language>();
+  public link: string;
 
-  constructor(private translatorContainer: TranslatorContainer) {
+  public GO: string;
+  public STOP: string;
+
+  constructor(private translatorContainer: TranslatorContainer, private translator: Translator) {
     this.languages.push({name: 'English', id: 'en'});
     this.languages.push({name: 'Español', id: 'es'});
     this.languages.push({name: 'Português', id: 'pt'});
     this.languages.push({name: 'Deutsche', id: 'de'});
     this.languages.push({name: 'Français', id: 'fr'});
+
+    this.translatorContainer
+      .languageChanged
+      .subscribe((lang) => {
+        this.updateLik(lang);
+        this.translator
+          .translate(['GO', 'STOP'])
+          .then(t => {
+            this.GO = t[0];
+            this.STOP = t[1];
+
+            this.buttonText = !this.started ? this.GO : this.STOP;
+          });
+      });
   }
 
   public onClick(event: MouseEvent) {
@@ -145,7 +163,7 @@ export class AppComponent implements OnInit {
   private reset() {
     this.trigger1 = 'hide';
     this.trigger2 = 'hide';
-    this.buttonText = GO;
+    this.buttonText = this.GO;
     this.started = false;
     this.lockDown = false;
     this.shaking = false;
@@ -159,7 +177,7 @@ export class AppComponent implements OnInit {
     this.switched = true;
     this.started = true;
 
-    this.buttonText = STOP;
+    this.buttonText = this.STOP;
 
     this.result = this.inputNumber;
     this.result2 = this.inputNumber;
@@ -189,7 +207,35 @@ export class AppComponent implements OnInit {
     this.translatorContainer.language = id;
   }
 
-  ngOnInit(): void {
+  private updateLik(lang: string) {
+    switch (lang) {
+      case 'en':
+      default:
+        this.link = 'https://en.wikipedia.org/wiki/Collatz_conjecture';
+        break;
+      case 'es':
+        this.link = 'https://es.wikipedia.org/wiki/Conjetura_de_Collatz';
+        break;
+      case 'pt':
+        this.link = 'https://pt.wikipedia.org/wiki/Conjectura_de_Collatz';
+        break;
+      case 'de':
+        this.link = 'https://de.wikipedia.org/wiki/Collatz-Problem';
+        break;
+      case 'fr':
+        this.link = 'https://fr.wikipedia.org/wiki/Conjecture_de_Syracuse';
+        break;
+    }
+  }
 
+  ngOnInit(): void {
+    this.updateLik(this.translator.language);
+    this.translator
+      .translate(['GO', 'STOP'])
+      .then(t => {
+        this.GO = t[0];
+        this.STOP = t[1];
+        this.buttonText = t[0];
+      });
   }
 }

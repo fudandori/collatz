@@ -1,3 +1,7 @@
 {
-  "BIGGEST": "Mayor cadena:"
+  "BIGGEST": "Mayor cadena:",
+  "WHAT_IS": "¿Qué es la Conjetura de Collatz?",
+  "PLACEHOLDER":"¡Elige un número!",
+  "GO": "Empezar!",
+  "STOP": "Parar"
 }

@@ -1,23 +1,23 @@
 <div [@fade]="error" class="error">
-  <span class="stroke" style="">ERROR!</span>
+  <span class="stroke" style="">{{'ERROR' | translate}}</span>
   <br/>
-  <span class="stroke">IT MUST BE A POSITIVE INTEGER NUMBER</span>
+  <span class="stroke">{{'ERROR_TEXT' | translate}}</span>
 </div>
 
 <div [@fade]="info" class="info">
-  <span>PICK A NUMBER, TYPE IT INTO THE BOX AND PRESS THE BUTTON</span>
+  <span>{{'INFO_1' | translate}}</span>
   <br/>
-  <span>ON THE LEFT SIDE YOU WILL SEE THE CONJECTURE JUMPS</span>
+  <span>{{'INFO_2' | translate}}</span>
   <br/>
-  <span>ON THE MIDDLE YOU WILL SEE HOW MANY JUMPS YOUR CHAIN ACCUMULATES</span>
+  <span>{{'INFO_3' | translate}}</span>
   <br/>
-  <span>REMEMBER: IT MUST BE A POSITIVE INTEGER NUMBER GREATER THAN 0!</span>
+  <span>{{'INFO_4' | translate}}</span>
   <br/>
-  <button style="margin: 0" class="btn btn-inverse" (click)="showInfo(false)">GOT IT!</button>
+  <button style="margin: 0;font-size: 4vh;padding: 2vh;width: 30vh;height: 10vh;" class="btn btn-inverse" (click)="showInfo(false)">{{'GOT_IT' | translate}}</button>
 </div>
 
 <div>
-  <input type="number" class="form-control" id="name" placeholder="Pick a number!" [(ngModel)]="inputNumber"
+  <input type="number" class="form-control" id="name" placeholder="{{'PLACEHOLDER' | translate}}" [(ngModel)]="inputNumber"
          [ngModelOptions]="{standalone: true}">
 
   <button [ngClass]="{'btn':true, 'btn-outline': !started, 'btn-warning-outline': started}"
@@ -49,11 +49,11 @@
 <div [ngStyle]="{top: cursorPos.y+200 + 'px', left: cursorPos.x+32 +'px'}"
      style="position: fixed;width: 100px;transform-origin: top" [@expand]="popUp">
   <button style="margin: 0" class="btn btn-outline" (click)="showInfo()">How to play</button>
-  <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">
-    <button style="margin: 2px 0" class="btn btn-outline">What is the Collatz Conjecture??</button>
+  <a [href]="link">
+    <button style="margin: 2px 0" class="btn btn-outline">{{'WHAT_IS' | translate}}</button>
   </a>
   <a href="https://www.youtube.com/watch?v=5mFpVDpKX70">
-    <button style="margin: 0" class="btn btn-outline">Video (Numberphile)</button>
+    <button style="margin: 0" class="btn btn-outline">{{'VIDEO' | translate}} (Numberphile)</button>
   </a>
 </div>
 
