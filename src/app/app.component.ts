@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {expand, fade, pop, shake} from './animations/animations';
+import {TranslatorContainer} from 'angular-translator';
+import {Language} from './language-picker/language';
 
 const GO = 'GO!', STOP = 'STOP';
 const MILD_SHAKE = 50, AVERAGE_SHAKE = 100, HEAVY_SHAKE = 150;
@@ -11,7 +13,7 @@ const MILD_SHAKE = 50, AVERAGE_SHAKE = 100, HEAVY_SHAKE = 150;
   animations: [expand, shake, pop, fade]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   public inputNumber: number;
   public result: number;
@@ -37,8 +39,17 @@ export class AppComponent {
 
   public cursorPos = {x: 0, y: 0};
 
-  public onClick(event: MouseEvent) {
+  public languages = Array<Language>();
 
+  constructor(private translatorContainer: TranslatorContainer) {
+    this.languages.push({name: 'English', id: 'en'});
+    this.languages.push({name: 'Español', id: 'es'});
+    this.languages.push({name: 'Português', id: 'pt'});
+    this.languages.push({name: 'Deutsche', id: 'de'});
+    this.languages.push({name: 'Français', id: 'fr'});
+  }
+
+  public onClick(event: MouseEvent) {
     const button = event.currentTarget as HTMLInputElement;
     button.blur();
 
@@ -172,5 +183,13 @@ export class AppComponent {
         this.shake = 'five';
         break;
     }
+  }
+
+  public changeLang(id: string) {
+    this.translatorContainer.language = id;
+  }
+
+  ngOnInit(): void {
+
   }
 }
